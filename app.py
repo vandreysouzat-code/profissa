@@ -1,4 +1,4 @@
-﻿
+
 import os
 import sqlite3
 from pathlib import Path
@@ -89,12 +89,13 @@ def get_user():
 def protected(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if not session.get("user_id"):
-            flash("Entre na sua conta para continuar.", "info")
+        user = get_user()
+        if not user:
+            session.clear()
+            flash("Sua sessão expirou. Entre na sua conta novamente.", "info")
             return redirect(url_for("login"))
         return fn(*args, **kwargs)
     return wrapper
-
 
 PAGE = """
 <!doctype html>
