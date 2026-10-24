@@ -1,4 +1,4 @@
-
+﻿
 import os
 import sqlite3
 from pathlib import Path
@@ -14,25 +14,25 @@ ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT / "instance" / "profissa.db"
 
 PROFESSIONS = {
-    "Prestador de serviços": ["Clientes", "Serviços", "Orçamentos", "Tarefas"],
-    "Psicólogo": ["Clientes", "Agenda", "Tarefas"],
+    "Prestador de serviÃ§os": ["Clientes", "ServiÃ§os", "OrÃ§amentos", "Tarefas"],
+    "PsicÃ³logo": ["Clientes", "Agenda", "Tarefas"],
     "Fisioterapeuta": ["Clientes", "Agenda", "Tarefas"],
     "Advogado": ["Clientes", "Processos", "Tarefas", "Documentos"],
-    "Contador": ["Clientes", "Documentos", "Tarefas", "Relatórios"],
-    "Profissional de beleza": ["Clientes", "Agenda", "Serviços"],
+    "Contador": ["Clientes", "Documentos", "Tarefas", "RelatÃ³rios"],
+    "Profissional de beleza": ["Clientes", "Agenda", "ServiÃ§os"],
     "Professor ou consultor": ["Clientes", "Agenda", "Tarefas"],
-    "Outra profissão": ["Clientes", "Agenda", "Serviços", "Tarefas"]
+    "Outra profissÃ£o": ["Clientes", "Agenda", "ServiÃ§os", "Tarefas"]
 }
 
 FIELDS = {
-    "Clientes": ("Nome do cliente", "Contato", "Observações"),
-    "Agenda": ("Compromisso", "Data e horário", "Observações"),
-    "Serviços": ("Nome do serviço", "Preço (R$)", "Descrição"),
-    "Orçamentos": ("Nome do orçamento", "Valor (R$)", "Detalhes"),
+    "Clientes": ("Nome do cliente", "Contato", "ObservaÃ§Ãµes"),
+    "Agenda": ("Compromisso", "Data e horÃ¡rio", "ObservaÃ§Ãµes"),
+    "ServiÃ§os": ("Nome do serviÃ§o", "PreÃ§o (R$)", "DescriÃ§Ã£o"),
+    "OrÃ§amentos": ("Nome do orÃ§amento", "Valor (R$)", "Detalhes"),
     "Tarefas": ("Nome da tarefa", "Prazo", "Detalhes"),
-    "Processos": ("Processo", "Prazo ou status", "Observações"),
-    "Documentos": ("Nome do documento", "Tipo ou prazo", "Observações"),
-    "Relatórios": ("Nome do relatório", "Período", "Observações")
+    "Processos": ("Processo", "Prazo ou status", "ObservaÃ§Ãµes"),
+    "Documentos": ("Nome do documento", "Tipo ou prazo", "ObservaÃ§Ãµes"),
+    "RelatÃ³rios": ("Nome do relatÃ³rio", "PerÃ­odo", "ObservaÃ§Ãµes")
 }
 
 app = Flask(__name__)
@@ -187,7 +187,7 @@ main{width:calc(100% - 28px);padding-top:28px}
 {% endfor %}
 {{ body|safe }}
 </main>
-<footer>Profissa · Seu trabalho, mais organizado.</footer>
+<footer>Profissa Â· Seu trabalho, mais organizado.</footer>
 </body>
 </html>
 """
@@ -207,22 +207,22 @@ def home():
     if session.get("user_id"):
         return redirect(url_for("dashboard"))
 
-    return page("Seu espaço profissional", """
+    return page("Seu espaÃ§o profissional", """
     <section class="hero">
       <span class="eyebrow">UM NOVO JEITO DE TRABALHAR</span>
       <h1>Seu trabalho merece<br>um lugar melhor.</h1>
       <p>Organize clientes, compromissos e tarefas em uma plataforma
-      pensada para acompanhar a sua profissão.</p>
-      <a class="btn" href="{{ url_for('register') }}">Criar meu espaço</a>
-      <p><a href="{{ url_for('login') }}">Já tenho uma conta</a></p>
+      pensada para acompanhar a sua profissÃ£o.</p>
+      <a class="btn" href="{{ url_for('register') }}">Criar meu espaÃ§o</a>
+      <p><a href="{{ url_for('login') }}">JÃ¡ tenho uma conta</a></p>
     </section>
     <section class="features">
       <article class="feature"><span class="eyebrow">01</span>
-      <h2>Feito para você</h2><p>Uma experiência adaptada à sua área.</p></article>
+      <h2>Feito para vocÃª</h2><p>Uma experiÃªncia adaptada Ã  sua Ã¡rea.</p></article>
       <article class="feature"><span class="eyebrow">02</span>
-      <h2>Tudo organizado</h2><p>Informações reunidas em um só lugar.</p></article>
+      <h2>Tudo organizado</h2><p>InformaÃ§Ãµes reunidas em um sÃ³ lugar.</p></article>
       <article class="feature"><span class="eyebrow">03</span>
-      <h2>Simples de usar</h2><p>Uma interface clara e prática.</p></article>
+      <h2>Simples de usar</h2><p>Uma interface clara e prÃ¡tica.</p></article>
     </section>
     """)
 
@@ -238,11 +238,11 @@ def register():
         if len(name) < 2:
             flash("Informe seu nome.", "error")
         elif "@" not in email or "." not in email.split("@")[-1]:
-            flash("Informe um e-mail válido.", "error")
+            flash("Informe um e-mail vÃ¡lido.", "error")
         elif len(password) < 8:
             flash("A senha precisa ter pelo menos 8 caracteres.", "error")
         elif profession not in PROFESSIONS:
-            flash("Selecione uma profissão válida.", "error")
+            flash("Selecione uma profissÃ£o vÃ¡lida.", "error")
         else:
             try:
                 with connect() as db:
@@ -255,17 +255,17 @@ def register():
 
                 session.clear()
                 session["user_id"] = uid
-                flash("Conta criada! Seu espaço profissional está pronto.", "success")
+                flash("Conta criada! Seu espaÃ§o profissional estÃ¡ pronto.", "success")
                 return redirect(url_for("dashboard"))
 
             except sqlite3.IntegrityError:
-                flash("Este e-mail já está cadastrado.", "error")
+                flash("Este e-mail jÃ¡ estÃ¡ cadastrado.", "error")
 
     return page("Criar conta", """
     <section class="formbox">
       <span class="eyebrow">COMECE POR AQUI</span>
-      <h1>Crie seu espaço</h1>
-      <p class="muted">Vamos adaptar o Profissa à sua rotina.</p>
+      <h1>Crie seu espaÃ§o</h1>
+      <p class="muted">Vamos adaptar o Profissa Ã  sua rotina.</p>
       <form method="post" class="stack">
         <label>Seu nome
           <input name="name" required minlength="2" maxlength="100" autocomplete="name">
@@ -277,7 +277,7 @@ def register():
           <input name="password" type="password" required minlength="8" autocomplete="new-password">
           <small>Use pelo menos 8 caracteres.</small>
         </label>
-        <label>Sua profissão
+        <label>Sua profissÃ£o
           <select name="profession" required>
             <option value="">Selecione</option>
             {% for p in professions %}<option>{{ p }}</option>{% endfor %}
@@ -285,7 +285,7 @@ def register():
         </label>
         <button class="btn full">Criar conta</button>
       </form>
-      <p class="bottom">Já tem uma conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+      <p class="bottom">JÃ¡ tem uma conta? <a href="{{ url_for('login') }}">Entrar</a></p>
     </section>
     """, professions=list(PROFESSIONS))
 
@@ -322,7 +322,7 @@ def login():
         </label>
         <button class="btn full">Entrar</button>
       </form>
-      <p class="bottom">Não tem conta? <a href="{{ url_for('register') }}">Criar conta</a></p>
+      <p class="bottom">NÃ£o tem conta? <a href="{{ url_for('register') }}">Criar conta</a></p>
     </section>
     """)
 
@@ -361,27 +361,27 @@ def dashboard():
     return page("Meu painel", """
     <div class="welcome">
       <div>
-        <span class="eyebrow">SEU ESPAÇO PROFISSIONAL</span>
-        <h1>Olá, {{ name }}.</h1>
-        <p class="muted">Organize sua rotina em um só lugar.</p>
+        <span class="eyebrow">SEU ESPAÃ‡O PROFISSIONAL</span>
+        <h1>OlÃ¡, {{ name }}.</h1>
+        <p class="muted">Organize sua rotina em um sÃ³ lugar.</p>
       </div>
       <span class="pill">{{ profession }}</span>
     </div>
 
     <div class="stats">
       <article class="stat"><span>Registros totais</span><strong>{{ total }}</strong></article>
-      <article class="stat"><span>Módulos disponíveis</span><strong>{{ modules|length }}</strong></article>
-      <article class="stat"><span>Seu espaço</span><strong>Ativo</strong></article>
+      <article class="stat"><span>MÃ³dulos disponÃ­veis</span><strong>{{ modules|length }}</strong></article>
+      <article class="stat"><span>Seu espaÃ§o</span><strong>Ativo</strong></article>
     </div>
 
     <h2>Suas ferramentas</h2>
-    <p class="muted">Escolha um módulo para começar.</p>
+    <p class="muted">Escolha um mÃ³dulo para comeÃ§ar.</p>
     <div class="grid">
       {% for m in modules %}
       <a class="card module" href="{{ url_for('module_page', module=m) }}">
-        <span class="symbol" aria-hidden="true">✦</span>
+        <span class="symbol" aria-hidden="true">âœ¦</span>
         <strong>{{ m }}</strong>
-        <small>{{ counts[m] }} registro(s) · Abrir →</small>
+        <small>{{ counts[m] }} registro(s) Â· Abrir â†’</small>
       </a>
       {% endfor %}
     </div>
@@ -391,13 +391,13 @@ def dashboard():
       {% for r in recent %}
       <article class="card" style="margin:10px 0">
         <strong>{{ r["title"] }}</strong>
-        <p class="muted">{{ r["module"] }} · {{ r["detail"] }}</p>
+        <p class="muted">{{ r["module"] }} Â· {{ r["detail"] }}</p>
       </article>
       {% endfor %}
     {% else %}
       <div class="card">
-        <strong>Sua organização começa aqui.</strong>
-        <p class="muted">Abra um módulo e adicione seu primeiro registro.</p>
+        <strong>Sua organizaÃ§Ã£o comeÃ§a aqui.</strong>
+        <p class="muted">Abra um mÃ³dulo e adicione seu primeiro registro.</p>
       </div>
     {% endif %}
     """, name=user["name"].split()[0], profession=user["profession"],
@@ -405,7 +405,7 @@ def dashboard():
 
 
 def format_brl(value):
-    """Formata números como moeda brasileira sem depender da configuração regional."""
+    """Formata nÃºmeros como moeda brasileira sem depender da configuraÃ§Ã£o regional."""
     try:
         number = float(str(value).strip().replace(",", "."))
         formatted = f"{number:,.2f}"
@@ -435,7 +435,7 @@ def parse_brl(value):
         raise ValueError("Valor inv?lido.")
 
     if not amount.is_finite() or amount < 0:
-        raise ValueError("O valor deve ser um n?mero não negativo.")
+        raise ValueError("O valor deve ser um n?mero nÃ£o negativo.")
 
     return amount.quantize(Decimal("0.01"))
 
@@ -446,7 +446,7 @@ def module_page(module):
     user = get_user()
 
     if module not in PROFESSIONS[user["profession"]] or module not in FIELDS:
-        flash("Módulo não disponível para sua profissão.", "error")
+        flash("MÃ³dulo nÃ£o disponÃ­vel para sua profissÃ£o.", "error")
         return redirect(url_for("dashboard"))
 
     labels = FIELDS[module]
@@ -465,7 +465,7 @@ def module_page(module):
         else:
             valid = True
 
-            if module in ("Serviços", "Orçamentos") and detail:
+            if module in ("ServiÃ§os", "OrÃ§amentos") and detail:
                 try:
                     detail = str(parse_brl(detail))
                 except ValueError:
@@ -497,7 +497,7 @@ def module_page(module):
                             ).fetchone()
 
                         if not record:
-                            flash("Registro não encontrado ou sem permiss?o.", "error")
+                            flash("Registro nÃ£o encontrado ou sem permiss?o.", "error")
                         else:
                             db.execute(
                                 "UPDATE records SET title=?, detail=?, notes=? "
@@ -530,7 +530,7 @@ def module_page(module):
                 ).fetchone()
 
             if not editing_record:
-                flash("Registro não encontrado ou sem permiss?o.", "error")
+                flash("Registro nÃ£o encontrado ou sem permiss?o.", "error")
 
     with connect() as db:
         if module == "Agenda":
@@ -551,7 +551,7 @@ def module_page(module):
 
     <div class="welcome">
       <div>
-        <span class="eyebrow">SEU ESPAÇO PROFISSIONAL</span>
+        <span class="eyebrow">SEU ESPAÃ‡O PROFISSIONAL</span>
         <h1>{{ module }}</h1>
         <p class="muted">Cadastre e organize seus registros.</p>
       </div>
@@ -575,7 +575,7 @@ def module_page(module):
             {% if module == "Agenda" %}
               <input name="detail" type="datetime-local"
                      value="{{ editing_record['detail'] if editing_record else '' }}">
-            {% elif module in ("Serviços", "Orçamentos") %}
+            {% elif module in ("ServiÃ§os", "OrÃ§amentos") %}
               <input name="detail" type="number" min="0" step="0.01"
                      placeholder="0,00"
                      value="{{ editing_record['detail'] if editing_record else '' }}">
@@ -590,11 +590,11 @@ def module_page(module):
           </label>
 
           <button class="btn full">
-            {% if editing_record %}Salvar alterações{% else %}Salvar registro{% endif %}
+            {% if editing_record %}Salvar alteraÃ§Ãµes{% else %}Salvar registro{% endif %}
           </button>
 
           {% if editing_record %}
-            <a href="{{ url_for('module_page', module=module) }}">Cancelar edição</a>
+            <a href="{{ url_for('module_page', module=module) }}">Cancelar ediÃ§Ã£o</a>
           {% endif %}
         </form>
       </section>
@@ -618,7 +618,7 @@ def module_page(module):
             </div>
 
             {% if r["detail"] %}
-              {% if module == "Serviços" or module == "Orçamentos" %}
+              {% if module == "ServiÃ§os" or module == "OrÃ§amentos" %}
                 <p><strong>{{ format_brl(r["detail"]) }}</strong></p>
               {% elif module == "Agenda" %}
                 <p>{{ r["detail"].replace("T", " ?s ") }}</p>
@@ -634,7 +634,7 @@ def module_page(module):
           </article>
           {% endfor %}
         {% else %}
-          <p class="muted">Nenhum registro ainda. Adicione o primeiro pelo formulário.</p>
+          <p class="muted">Nenhum registro ainda. Adicione o primeiro pelo formulÃ¡rio.</p>
         {% endif %}
       </section>
     </div>
@@ -731,7 +731,7 @@ def delete_record(record_id):
         ).fetchone()
 
         if not record:
-            flash("Registro não encontrado.", "error")
+            flash("Registro nÃ£o encontrado.", "error")
             return redirect(url_for("dashboard"))
 
         db.execute(
@@ -739,7 +739,7 @@ def delete_record(record_id):
             (record_id, user["id"])
         )
 
-    flash("Registro excluído.", "success")
+    flash("Registro excluÃ­do.", "success")
     return redirect(url_for("module_page", module=record["module"]))
 
 
@@ -749,3 +749,4 @@ init_db()
 
 if __name__ == "__main__":
     app.run(debug=True)
+
