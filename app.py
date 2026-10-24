@@ -338,6 +338,10 @@ def logout():
 @protected
 def dashboard():
     user = get_user()
+    if not user:
+        session.clear()
+        flash("Entre na sua conta para continuar.", "info")
+        return redirect(url_for("login"))
     modules = PROFESSIONS[user["profession"]]
 
     with connect() as db:
