@@ -1,29 +1,26 @@
 ﻿.venv/
 __pycache__/
-instance/
 *.pyc
 .env
-
-# Backups e scripts temporários de manutenção
-app.py.backup*
-app.py.com-quebra-de-rota
-aplicar_melhorias.py
-patch_profissa.py
-
-# Banco de dados local e arquivos SQLite
+.env.*
+!.env.example
 instance/
 *.db
 *.sqlite
 *.sqlite3
 
-# Segredos e ambiente local
-.env
-.env.*
-!.env.example
+# Backups locais
+*.backup*
+*.before-fix
+*.encoding-backup
+*.com-quebra-de-rota
 
-# Python
-.venv/
-__pycache__/
-*.py[cod]
+# Scripts temporários de manutenção
+corrigir_*.py
+diagnosticar_*.py
+diagnostico-encoding.txt
+aplicar_melhorias.py
+patch_profissa.py
 
+# Backups de testes
 tests/*.backup*
