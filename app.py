@@ -1,4 +1,4 @@
-﻿
+
 import os
 import sqlite3
 from pathlib import Path
@@ -9,6 +9,7 @@ from flask import (
     flash, render_template_string
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+from contextlib import contextmanager
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = ROOT / "instance" / "profissa.db"
@@ -42,12 +43,20 @@ app.config["SECRET_KEY"] = os.environ.get(
 )
 
 
+@contextmanager
 def connect():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(DB_PATH)
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
-    return db
+    try:
+        yield db
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
 
 
 def init_db():
@@ -219,7 +228,7 @@ def home():
     </section>
     <section class="features">
       <article class="feature"><span class="eyebrow">01</span>
-      <h2>Feito para você</h2><p>Uma experiência adaptada Ã  sua área.</p></article>
+      <h2>Feito para você</h2><p>Uma experiência adaptada à sua área.</p></article>
       <article class="feature"><span class="eyebrow">02</span>
       <h2>Tudo organizado</h2><p>Informações reunidas em um só lugar.</p></article>
       <article class="feature"><span class="eyebrow">03</span>
