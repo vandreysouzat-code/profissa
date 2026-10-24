@@ -1,0 +1,29 @@
+﻿.venv/
+__pycache__/
+instance/
+*.pyc
+.env
+
+# Backups e scripts temporários de manutenção
+app.py.backup*
+app.py.com-quebra-de-rota
+aplicar_melhorias.py
+patch_profissa.py
+
+# Banco de dados local e arquivos SQLite
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Segredos e ambiente local
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+tests/*.backup*
